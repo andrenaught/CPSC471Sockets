@@ -149,12 +149,13 @@ while (ans != "quit"):
 	ans =raw_input("ftp> ")
 
 	#argument counting with spaces
-	if ans.count(' ') == 1:
+	ftp_arg_count = ans.count(' ')
+	if ftp_arg_count == 1:
 		(command, rest) = ans.split()
-	elif ans.count(' ') == 0:
+	elif ftp_arg_count == 0:
 		command = ans
 
-	if command == "put":
+	if command == "put" and ftp_arg_count == 1:
 		fileName = rest
 		primarySocket.send(ans)
 		tempPort=primarySocket.recv(bufferSize)
@@ -164,14 +165,14 @@ while (ans != "quit"):
 			print ("fail to upload")
 		else:
 			print("Finish uploading")
-	elif command == "get":
+	elif command == "get" and ftp_arg_count == 1:
 		fileName = rest
-	elif command == "ls":
+	elif command == "ls" and ftp_arg_count == 0:
 		primarySocket.send(ans)
 		print("sending ls request to server")
-		#add code functionality here
+		#add functionality here
 
-	elif command == "quit":
+	elif command == "quit" and ftp_arg_count == 0:
 		primarySocket.send(ans)
 		print ("closing now")
 		primarySocket.close()
