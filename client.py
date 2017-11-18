@@ -147,7 +147,13 @@ success = ""
 
 while (ans != "quit"):
 	ans =raw_input("ftp> ")
-	(command, rest) = ans.split()
+
+	#argument counting with spaces
+	if ans.count(' ') == 1:
+		(command, rest) = ans.split()
+	elif ans.count(' ') == 0:
+		command = ans
+
 	if command == "put":
 		fileName = rest
 		primarySocket.send(ans)
@@ -160,14 +166,18 @@ while (ans != "quit"):
 			print("Finish uploading")
 	elif command == "get":
 		fileName = rest
+	elif command == "ls":
+		primarySocket.send(ans)
+		print("sending ls request to server")
+		#add code functionality here
 
+	elif command == "quit":
+		primarySocket.send(ans)
+		print ("closing now")
+		primarySocket.close()
 	else:
 		print ("not a valid command")
 
-if (ans == "quit"):
-	primarySocket.send(ans)
-	print ("closing now")
-	primarySocket.close()
 		
 
 

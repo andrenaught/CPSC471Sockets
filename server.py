@@ -67,11 +67,11 @@ def connectTempSocket(client):
 
     # Bind the socket to port 0
     try:
-    	tempSocket.bind(('', 0))
+        tempSocket.bind(('', 0))
     except socket.error, msg:
-    	print ('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' \
+        print ('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' \
         + msg[1])
-  	sys.exit()
+    sys.exit()
 
     # Retreive the ephemeral port number
 
@@ -198,6 +198,10 @@ while True:
              print ('Quit command received.Closing socket now')
              clientSocket.close()
              quit = True
+         elif command == 'ls':
+            print('ls request recieved')
+            #add functionality here
+            
          else:
              print ("Not a valid command")
 
@@ -206,4 +210,5 @@ while True:
 
 
 
-			
+
+            
