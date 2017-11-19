@@ -24,3 +24,7 @@
 		   To test on the same computer, use $ python client.py localhost 1234
 		  	 e.g. $ python client.py ecs.fullerton.edu 1234
 		5/ Start using the program
+
++ How to use "ls"
+	1. connect to server
+	2. type "ls" on client side 

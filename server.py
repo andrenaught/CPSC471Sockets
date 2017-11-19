@@ -11,6 +11,8 @@
 import socket
 import sys
 import os
+import pickle #for sending lists
+import commands
 
 bufferSize = 4096
 request_queue = 10
@@ -71,7 +73,7 @@ def connectTempSocket(client):
     except socket.error, msg:
         print ('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' \
         + msg[1])
-    sys.exit()
+    #sys.exit(), this caused server to just quit so commenting it out for now -andre
 
     # Retreive the ephemeral port number
 
@@ -91,9 +93,9 @@ def connectTempSocket(client):
     (tempCliSock, addr) = tempSocket.accept()
 
     # Close listening tempSocket
-
+    
     tempSocket.close()
-
+    
     return tempCliSock
 
 
@@ -131,6 +133,9 @@ def receiveFile(filename, tempSocket):
     # Close the file
 
     fileWriter.close()
+
+        
+    
 
 
 # *******************************************************************
@@ -177,6 +182,7 @@ while True:
     print ('Connected with client',add, '@', serverPort)
     while not quit:
          command = clientSocket.recv(bufferSize)
+         command
          if command[:3] == 'put':
             print ('Put command received. Prepare to receive file')
             fileName = rest
@@ -200,7 +206,24 @@ while True:
              quit = True
          elif command == 'ls':
             print('ls request recieved')
-            #add functionality here
+
+            #create ephemeral port and send to client
+            tempSock = connectTempSocket(clientSocket)
+
+            #get directory data
+            dir_files = []
+            for line in commands.getstatusoutput('ls -l'):
+                print line
+                dir_files.append(line)
+
+            #need 'pickle.dumps' in order to send through socket
+            data = pickle.dumps(dir_files)
+
+            #send directory data back to client
+            tempSock.send(data)
+            print ('successfully sent directory data')
+
+            tempSock.close()
             
          else:
              print ("Not a valid command")
