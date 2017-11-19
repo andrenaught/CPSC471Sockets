@@ -213,7 +213,6 @@ while True:
             #get directory data
             dir_files = []
             for line in commands.getstatusoutput('ls -l'):
-                print line
                 dir_files.append(line)
 
             #need 'pickle.dumps' in order to send through socket
@@ -224,7 +223,7 @@ while True:
             print ('successfully sent directory data')
 
             tempSock.close()
-            
+
          else:
              print ("Not a valid command")
 
